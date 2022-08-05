@@ -73,7 +73,7 @@ def print_coords(lyr):
         print('{}, {}'.format(x,y))
 
 # returns coordinates as a json response, id's are arbitrary
-def get_coords(lyr):
+def get_coords(lyr): # change to except a point layer
     id = 0
     output_coords = []
     for feat in lyr:
@@ -90,8 +90,8 @@ def get_coords(lyr):
         id += 1
         
         #for test
-        if id > 10:
-            break
+        #if id > 10:
+            #break
     return output_coords
 
 def main():
