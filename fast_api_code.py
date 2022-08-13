@@ -23,3 +23,4 @@ async def create_upload_file(uploaded_file: UploadFile = File(...)):
     with open(file_location, "wb+") as file_object:
         file_object.write(uploaded_file.file.read())
     return {"info": f"file '{uploaded_file.filename}' saved at '{file_location}'"}
+
