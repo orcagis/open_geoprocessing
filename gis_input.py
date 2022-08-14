@@ -40,9 +40,11 @@ def get_layer(path, layer_name = None):
     else:
         sys.exit('Invalid file type...')
 
+
 def main():
-      my_layer = get_layer(r'/Users/justinhawley/Desktop/my_gdb.gdb','centroids')
-      print(my_layer)
+      #my_layer = get_layer(r'/Users/justinhawley/Desktop/my_gdb.gdb','centroids')
+      #print(my_layer)
+      pass
 
 if __name__ == '__main__':
     main()

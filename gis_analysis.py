@@ -12,10 +12,18 @@
 import sys
 from osgeo import ogr
 
-def list_fields():
-    pass
+def list_fields(layer, print_to_screen = False):
+    schema = []
+    ldefn = layer.GetLayerDefn()
+    for n in range(ldefn.GetFieldCount()):
+        fdefn = ldefn.GetFieldDefn(n)
+        schema.append(fdefn.name)
+        if print_to_screen:
+            print(fdefn.name)
+    return (schema)
+
 # returns coordinates as a json response and optionally prints to screen
-def get_pt_coords(pt_lyr, print_coords = False):
+def get_pt_coords(pt_lyr, print_to_screen = False):
     lyr_def = pt_lyr.GetLayerDefn()
     geom_type = ogr.GeometryTypeToName(lyr_def.GetGeomType())
 
@@ -28,7 +36,7 @@ def get_pt_coords(pt_lyr, print_coords = False):
             pt = feat.geometry()
             x = pt.GetX()
             y = pt.GetY()
-            if print_coords:
+            if print_to_screen:
                 print('{}: {}, {}'.format(id,x,y))
             record = {
                 "id": id,
@@ -38,8 +46,6 @@ def get_pt_coords(pt_lyr, print_coords = False):
             output_coords.append(record)
 
             id += 1
-            if id > 10:
-                break
 
     return output_coords
 
