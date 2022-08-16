@@ -12,6 +12,32 @@
 import sys
 from osgeo import ogr
 
+def get_geom_type(layer, print_to_screen = False):
+    feat = layer.GetFeature(0)
+    geom_type = feat.geometry().GetGeometryName()
+    if print_to_screen:
+        print('Geometry type: {}'.format(geom_type))
+    geom_type = {'geometry_type': geom_type}  
+    return geom_type
+
+def get_lyr_extent(layer, print_to_screen = False):
+    lyr_extent = layer.GetExtent()
+    if print_to_screen:
+        print('layer_extent: {}'.format(lyr_extent))
+    lyr_extent = {
+        'min_x': lyr_extent[0],
+        'max_x': lyr_extent[1],
+        'min_y': lyr_extent[2],
+        'max_y': lyr_extent[3]
+    }
+    return lyr_extent
+
+def get_lyr_feat_count(layer, print_to_screen = False):
+     feature_count = layer.GetFeatureCount()
+     if print_to_screen:
+        print('layer_feature_count: {}'.format(feature_count))
+     return feature_count
+
 def list_fields(layer, print_to_screen = False):
     schema = []
     ldefn = layer.GetLayerDefn()
