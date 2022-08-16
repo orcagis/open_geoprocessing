@@ -13,6 +13,11 @@ import gis_input
 import gis_analysis
 import gis_output
 
+def get_lyr_feat_count(path, layer_name = None):
+     lyr = gis_input.get_layer(path,layer_name)
+     feature_count = lyr[0].GetFeatureCount()
+     return feature_count
+
 def get_lyr_coords(path, layer_name = False, out_name = None, out_path = None, out_format = 'json', print_to_screen = False):
      lyr = gis_input.get_layer(path,layer_name)
      lyr_coords = gis_analysis.get_pt_coords(lyr[0],print_to_screen) # returns json
@@ -43,8 +48,10 @@ def export_lyr_attributes(path, layer_name = False, fields = [], out_name = None
 def main():
      #my_fields = list_lyr_fields(r'/Users/justinhawley/Desktop/counties/centroids.shp', print_to_screen = True)
 
-     my_attributes = export_lyr_attributes(r'/Users/justinhawley/Desktop/counties/centroids.shp', fields = None, out_name = 'centroids_data', out_path = '/Users/justinhawley/repos/fastgisapi/output', out_format = 'csv', print_to_screen = False)
-     print(my_attributes)
+     #my_attributes = export_lyr_attributes(r'/Users/justinhawley/Desktop/my_gdb.gdb','centroids', fields = None, out_name = 'centroids_data', out_path = '/Users/justinhawley/repos/fastgisapi/output', out_format = 'csv', print_to_screen = False)
+     #print(my_attributes)
+     my_count = get_lyr_feat_count(r'/Users/justinhawley/Desktop/counties/centroids.shp')
+     print(my_count)
      
      #export_lyr_attributes(r'/Users/justinhawley/Desktop/counties/centroids.shp', fields = None, out_name = 'centroids_data', out_path = '/Users/justinhawley/repos/fastgisapi/output', out_format = 'json', print_to_screen = True)
 
