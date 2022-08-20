@@ -9,16 +9,15 @@
 # Interpreter: /fastgisapi/venv/bin/python3
 #-------------------------------------------------------------------------------
 
-
 import sys
 from osgeo import ogr
 import os
 
-def get_layer(path, layer_name = None):
+def get_layer(path, layer_name = None, read_only = 0):
     file_name, file_extension = os.path.splitext(path)
     if file_extension == '.shp':
         fn = path
-        ds = ogr.Open(fn, 0)
+        ds = ogr.Open(fn, read_only)
         if ds is None:
             sys.exit('Could not open {0}.'.format(fn))
         else:

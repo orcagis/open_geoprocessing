@@ -11,12 +11,45 @@
 
 import sys
 from osgeo import ogr
+import os
+
+# int -> OFTInteger
+# double -> OFTReal
+# text -> OFTString
+# date -> OFTDate
+def add_field(layer, source, field_name, data_type, length, print_to_screen = False):
+    file_name, file_extension = os.path.splitext(source.name)
+    ogr_data_type = None
+
+    if file_extension == '.shp':
+        if data_type == 'int':
+            ogr_data_type = ogr.OFTInteger
+        elif data_type == 'double':
+            ogr_data_type = ogr.OFTReal
+        elif data_type == 'text':
+            ogr_data_type = ogr.OFTString
+        elif data_type == 'date':
+            ogr_data_type = ogr.OFTDate
+
+        new_field = ogr.FieldDefn(field_name, ogr_data_type)
+        if length and data_type == 'text':
+            new_field.SetWidth(length)
+        layer.CreateField(new_field)
+    else:
+        sys.exit('Invalid format')
+   
+def get_spatial_ref(layer, print_to_screen = False):
+    spatial_ref = layer.GetSpatialRef()
+    if print_to_screen:
+        print('spatial reference: {}'.format(spatial_ref))
+    #spatial_ref = {'spatial_ref': spatial_ref}  
+    return spatial_ref
 
 def get_geom_type(layer, print_to_screen = False):
     feat = layer.GetFeature(0)
     geom_type = feat.geometry().GetGeometryName()
     if print_to_screen:
-        print('Geometry type: {}'.format(geom_type))
+        print('geometry type: {}'.format(geom_type))
     geom_type = {'geometry_type': geom_type}  
     return geom_type
 
@@ -35,8 +68,19 @@ def get_lyr_extent(layer, print_to_screen = False):
 def get_lyr_feat_count(layer, print_to_screen = False):
      feature_count = layer.GetFeatureCount()
      if print_to_screen:
-        print('layer_feature_count: {}'.format(feature_count))
+        print('feature count: {}'.format(feature_count))
      return feature_count
+
+def get_lyr_schema(layer, print_to_screen = False):
+    schema = []
+    for field in layer.schema:
+        record = {}
+        record['name'] = field.name
+        record['type'] = field.GetTypeName()
+        schema.append(record)
+        if print_to_screen:
+                print('{}: {}'.format(record['name'], record['type']))
+    return schema
 
 def list_fields(layer, print_to_screen = False):
     schema = []

@@ -17,6 +17,7 @@ def read_item(item_id: int, q:Optional[str] = None):
     return {'item_id': item_id, 'q':q}
 
 # shapefiles and geodatabase feature classes require zip files
+# upload data first, then call functions
 @app.post("/upload-file/")
 async def create_upload_file(uploaded_file: UploadFile = File(...)):
     file_location = f"input/{uploaded_file.filename}"
