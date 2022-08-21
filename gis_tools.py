@@ -12,7 +12,6 @@ import gis_input
 import gis_analysis
 import gis_output
 
-
 # int, double, text, date
 def add_field_shp(path, field_name, data_type, length = None):
      lyr = gis_input.get_layer(path, read_only=1)
